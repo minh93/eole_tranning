@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>入社前研修課題</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<%= link_to "FizzBuzz1", fb1_path %>
+<%= link_to "FizzBuzz2", fb2_path %>
+<%= link_to "DirectoryListing", directory_listing_path %>
+<div class="container">
+  <%= yield %>
+</div>
+
+</body>
+</html>
