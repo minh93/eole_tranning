@@ -1,1 +1,17 @@
-
+<br>
+<%= form_tag ("/directory_listing") do %>
+<%= text_field_tag(:path) %>
+<%= submit_tag("Show") %>
+<% end %>
+<div>
+  <h3>Default location "."</h3>
+</div>
+<div id="results">
+  <% if !@lines.nil? %>
+    <% @lines.each do |line| %>
+    <div> 
+      <%= line.gsub(/\s/, "&nbsp;").html_safe %>
+    </div>
+    <% end %>
+  <% end %>
+</div>
