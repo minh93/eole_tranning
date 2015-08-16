@@ -1,12 +1,9 @@
-<% 1000.times do |number| %>
-  <% number += 1 %>
-  <% if number%15 == 0 %>
-    <h3>FizzBuzz</h3>
-  <% elsif number%5 == 0 %>
-    <h3>Buzz</h3>
-  <% elsif number%3 == 0 %>
-    <h3>Fizz</h3>
-  <% else %>
-    <h3><%= number %></h3>
+<div id="results">
+  <% if !@lines.nil? %>
+    <% @lines.each do |line| %>
+    <div> 
+      <%= line.gsub(/\s/, "&nbsp;").html_safe %>
+    </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

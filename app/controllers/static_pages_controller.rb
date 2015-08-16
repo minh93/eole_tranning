@@ -1,52 +1,67 @@
 class StaticPagesController < ApplicationController
   def fb2
+    @lines = [""]
+    1000.times do |number|
+      number += 1
+      if number%15 == 0
+        @lines << "person_puppy.png"
+      elsif number%5 == 0
+        @lines << "puppy.png"
+      elsif number%3 == 0 || number.to_s.include?("3")
+        @lines << "person.png"
+      else
+        @lines << number
+      end
+    end
   end
 
   def fb1
-  end
-
-  def directory_listing
-    path = "." if params[:path] = ""
-    hash_dir = directory_hash path
     @lines = [""]
-    travelsal @lines, hash_dir, " "
-    render :directory_listing
-  end
-
-  def index
-    render :directory_listing
-  end
-
-  private
-
-  def directory_hash(path, name=nil)
-    data = {:data => (name || path)}
-    data[:children] = children = []
-    Dir.foreach(path) do |entry|
-      next if (entry == '..' || entry == '.')      
-      full_path = File.join(path, entry)
-      next unless File.readable?(full_path)
-      if File.directory?(full_path)
-        children << directory_hash(full_path, entry)
+    1000.times do |number|
+      number += 1
+      if number%15 == 0
+        @lines << "FizzBuzz"
+      elsif number%5 == 0
+        @lines << "Buzz"
+      elsif number%3 == 0
+        @lines << "Fizz"
       else
-        children << entry
-      end
-    end
-    return data
-  end
-
-  def travelsal lines, hash_dir, space
-    lines.last << hash_dir[:data]
-    ordered = hash_dir[:children].sort_by {|obj| obj.class.name}
-    ordered = ordered.reverse
-    ordered.each do |item|
-      lines << (space + "└")
-      if item.class == String
-        lines[lines.size - 1] << item
-      else
-        space << "  "      
-        travelsal lines, item, space
+        @lines << number.to_s
       end
     end
   end
+
+def directory_listing
+  if params[:path] == ""
+    path = "."
+  else
+    path = params[:path]
+  end
+  @lines = [""]
+  travelsal(@lines, path)    
+  render :directory_listing
+end
+
+def index
+  render :directory_listing
+end
+
+private
+
+def travelsal(lines, path, prefix='')
+  return [1, 0] if not Dir.exist? path
+  children = Dir.entries(path).
+  reject { |e| e[0] == '.' }.
+  map { |p| File.join(path, p) }
+  children.each_with_index do |f, i|
+    if i < children.length - 1
+      lines << (prefix + '├── ' + File.basename(f))
+      travelsal(lines, f, prefix + '│   ')
+    else
+      lines << (prefix + '└── ' + File.basename(f))
+      travelsal(lines, f, prefix + '    ')
+    end
+  end
+end
+
 end
